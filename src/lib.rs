@@ -53,6 +53,10 @@ impl Contract {
         });
     }
 
+    pub fn get_all_requests(&self) -> Vec<Request>{
+        self.requests.values().collect()
+    }
+
     pub fn get_data_response(&self, request_id: &String) -> Option<Response> {
         self.responses.get(request_id)
     }
@@ -61,6 +65,7 @@ impl Contract {
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault,Deserialize, Serialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Request{
+    pub request_id: String,
     pub uri: String,
     pub period: Option<u64>,
 }
