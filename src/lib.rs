@@ -1,6 +1,5 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{UnorderedMap, UnorderedSet};
-use near_sdk::json_types::{ValidAccountId, U128};
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{near_bindgen, PanicOnDefault, Timestamp, env, AccountId};
 near_sdk::setup_alloc!();
@@ -59,18 +58,21 @@ impl Contract {
     }
 }
 
-#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault,Deserialize, Serialize)]
+#[serde(crate = "near_sdk::serde")]
 pub struct Request{
     pub uri: String,
     pub period: Option<u64>,
 }
 
-#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault, Deserialize, Serialize)]
+#[serde(crate = "near_sdk::serde")]
 pub struct Response{
     pub result: String,
     pub timestamp: Timestamp,
 }
 
+#[cfg(not(target = "wasm32"))]
 #[cfg(test)]
 mod tests {
     #[test]
